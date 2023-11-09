@@ -4,6 +4,8 @@ import type { SequenceState } from '~/store/sequence/sequence.types';
 
 export const useSequence = defineStore("sequence", {
   state: (): SequenceState => ({
+    bruteForceVerifierAddress: 'B62qoB21FbxU4mCmz5vUSuMTfAqPZYeKt7vy9TKNxbeACNu4TaCgPJo',
+    segmentVerifierAddress: 'B62qjxuF5zqUvdHX8SKCLnGRvELSqSLqoJFh8c3AVFaLikGhuTWaA3K',
     sequence: '',
     pattern: '',
     proof: ''
