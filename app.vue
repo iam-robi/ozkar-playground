@@ -9,13 +9,9 @@
         <!-- Input section -->
         <div class="flex flex-col space-y-4 w-1/2">
           <label for="input1" class="text-lg font-bold">Sequence: </label>
-          <input
-            id="input1"
-            type="text"
-            class="input input-primary"
-            placeholder="Enter Sequence"
-            v-model.value="sequenceStore.sequence"
-          />
+     
+          <textarea class="textarea textarea-bordered textarea-primary" v-model.value="sequenceStore.sequence"
+          ></textarea>
 
           <label for="input2" class="text-lg font-bold">Pattern:</label>
           <input
@@ -70,6 +66,8 @@ const defaultFunction = () => {
   console.log("default function");
 };
 
-
+onMounted(async () => {
+  const { BruteForceVerifier } = await import('@ozkarjs/sequence-verifiers');
+});
 
 </script>
