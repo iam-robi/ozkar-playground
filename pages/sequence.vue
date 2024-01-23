@@ -9,8 +9,10 @@
         <!-- Input section -->
         <div class="flex flex-col space-y-4 w-1/2">
           <label for="input1" class="text-lg font-bold">Sequence: </label>
-     
-          <textarea class="textarea textarea-bordered textarea-primary" v-model.value="sequenceStore.sequence"
+
+          <textarea
+            class="textarea textarea-bordered textarea-primary"
+            v-model="sequenceStore.sequence"
           ></textarea>
 
           <label for="input2" class="text-lg font-bold">Pattern:</label>
@@ -19,9 +21,11 @@
             type="text"
             class="input input-primary"
             placeholder="Enter Pattern"
-            v-model.value="sequenceStore.pattern"
+            v-model="sequenceStore.pattern"
           />
-          <button @click="sequenceStore.computeProof()" class="btn">Compute Proof</button>
+          <button @click="sequenceStore.computeProof()" class="btn">
+            Compute Proof
+          </button>
         </div>
 
         <!-- Proof section -->
@@ -55,11 +59,11 @@
 </template>
 
 <script setup>
-import Navbar from "./components/layout/Navbar.vue";
-import LayoutHeroBanner from "./components/layout/HeroBanner.vue";
+import Navbar from "@/components/layout/Navbar.vue";
+import LayoutHeroBanner from "@/components/layout/HeroBanner.vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
-import { useSequence } from "./store/sequence/sequence.index";
+import { useSequence } from "@/store/sequence/sequence.index";
 const sequenceStore = useSequence();
 
 const defaultFunction = () => {
@@ -67,7 +71,6 @@ const defaultFunction = () => {
 };
 
 onMounted(async () => {
-  const { BruteForceVerifier } = await import('@ozkarjs/sequence-verifiers');
+  const { BruteForceVerifier } = await import("@ozkarjs/sequence-verifiers");
 });
-
 </script>

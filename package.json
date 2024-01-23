@@ -20,8 +20,10 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "@ozkarjs/sequence-verifiers": "^0.1.5",
+    "@ozkarjs/sequence-verifiers": "^0.1.6",
+    "@ozkarjs/vhir": "^0.2.6",
     "@pinia/nuxt": "^0.5.1",
+    "o1js": "^0.15.3",
     "pinia": "^2.1.7",
     "vite-plugin-cross-origin-isolation": "^0.1.6"
   }
