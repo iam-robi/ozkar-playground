@@ -72,10 +72,23 @@
 import Navbar from "@/components/layout/Navbar.vue";
 import LayoutHeroBanner from "@/components/layout/HeroBanner.vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
-
+import { JsonParser } from "@ozkarjs/vhir";
 const defaultFunction = () => {
   console.log("default function");
+  const e = JsonParser.linearizeJson({ "hello world": "hello world" });
 };
 
 onMounted(async () => {});
 </script>
+<style>
+.stats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.stat {
+  flex: 0 0 auto; /* Prevents the cards from growing or shrinking */
+  max-width: 30%; /* Adjust this value based on your layout */
+  margin: 10px; /* Optional, for spacing around the cards */
+}
+</style>

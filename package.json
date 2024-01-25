@@ -20,6 +20,7 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
+    "@medplum/fhirtypes": "^3.0.1",
     "@ozkarjs/sequence-verifiers": "^0.1.6",
     "@ozkarjs/vhir": "^0.2.6",
     "@pinia/nuxt": "^0.5.1",

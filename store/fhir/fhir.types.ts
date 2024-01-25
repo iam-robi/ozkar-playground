@@ -1,8 +1,7 @@
-import type { BruteForceVerifier } from "@ozkarjs/sequence-verifiers";
-
+import type { Observation } from "@medplum/fhirtypes";
 export interface FHIRState {
-  fhirObservationWeight: String;
-  fhirObservationHeight: String;
-  fhirObservationHeartRate: String;
+  fhirObservationWeight: Observation;
+  fhirObservationHeight: Observation;
+  fhirObservationHeartRate: Observation;
   proofs: Array<String>;
 }

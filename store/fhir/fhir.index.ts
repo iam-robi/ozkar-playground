@@ -4,10 +4,10 @@ import type { FHIRState } from "~/store/fhir/fhir.types";
 import { PublicKey, Mina, Field } from "o1js";
 
 export const useFHIR = defineStore("fhir", {
-  state: (): SequenceState => ({
+  state: (): FHIRState => ({
     fhirObservationWeight: {
       resourceType: "Observation",
-      id: "bodyWeight-example",
+      id: "bodyWeight",
       meta: {
         profile: [
           "http://hl7.org/fhir/us/vitals/StructureDefinition/body-weight",
