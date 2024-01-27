@@ -2,9 +2,17 @@
 import { defineStore } from "pinia";
 import type { FHIRState } from "~/store/fhir/fhir.types";
 import { PublicKey, Mina, Field } from "o1js";
-
+import {
+  JsonParser,
+  LinearModel,
+  MINA_MERKLE_MAP_FACTORY,
+  BackendFactory,
+} from "@ozkarjs/vhir";
 export const useFHIR = defineStore("fhir", {
   state: (): FHIRState => ({
+    query: {},
+    merkleMap: {},
+    selectedResource: "",
     fhirObservationWeight: {
       resourceType: "Observation",
       id: "bodyWeight",
@@ -74,7 +82,7 @@ export const useFHIR = defineStore("fhir", {
       },
       effectiveDateTime: "2019-10-16T12:12:29-09:00",
       valueQuantity: {
-        value: 25,
+        value: 75,
         unit: "kg",
         system: "http://unitsofmeasure.org",
         code: "kg",
@@ -119,10 +127,10 @@ export const useFHIR = defineStore("fhir", {
       },
       effectiveDateTime: "1999-07-02",
       valueQuantity: {
-        value: 66.899999999999991,
-        unit: "in",
+        value: 176,
+        unit: "cm",
         system: "http://unitsofmeasure.org",
-        code: "[in_i]",
+        code: "[cm_i]",
       },
     },
     fhirObservationHeartRate: {
@@ -185,5 +193,16 @@ export const useFHIR = defineStore("fhir", {
     },
     proofs: [],
   }),
-  actions: {},
+  actions: {
+    generateMap: function (resource: any) {
+      const ln = LinearModel.fromJS(resource);
+      this.merkleMap = MINA_MERKLE_MAP_FACTORY.fromLinearModel(ln);
+    },
+    prove: async function (query: any) {
+      const q = query.parse(query);
+      const backendFactory = new BackendFactory();
+      const backend = await backendFactory.build(this.merkleMap.witnessLength);
+      const proofE = await backend.execute(this.merkleMap, q);
+    },
+  },
 });

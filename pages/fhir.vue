@@ -19,8 +19,16 @@
           </svg>
         </div>
         <div class="stat-title">Avg Heartbeat</div>
-        <div class="stat-value text-primary">65</div>
+        <div class="stat-value text-primary">
+          {{ fhirStore.fhirObservationHeartRate.valueQuantity.value }}
+        </div>
         <div class="stat-desc">at rest heartbeat</div>
+        <button
+          @click="startProver('heartbeat')"
+          class="btn btn-accent w-full mt-4"
+        >
+          Prove
+        </button>
       </div>
 
       <div class="stat">
@@ -40,8 +48,16 @@
           </svg>
         </div>
         <div class="stat-title">Height</div>
-        <div class="stat-value">176</div>
+        <div class="stat-value">
+          {{ fhirStore.fhirObservationHeight.valueQuantity.value }}
+        </div>
         <div class="stat-desc">cm</div>
+        <button
+          @click="startProver('height')"
+          class="btn btn-accent w-full mt-4"
+        >
+          Prove
+        </button>
       </div>
 
       <div class="stat">
@@ -61,8 +77,16 @@
           </svg>
         </div>
         <div class="stat-title">Weight</div>
-        <div class="stat-value">75</div>
+        <div class="stat-value">
+          {{ fhirStore.fhirObservationWeight.valueQuantity.value }}
+        </div>
         <div class="stat-desc">↘︎ kgs</div>
+        <button
+          @click="startProver('weight')"
+          class="btn btn-accent w-full mt-4"
+        >
+          Prove
+        </button>
       </div>
     </div>
   </div>
@@ -73,7 +97,41 @@ import Navbar from "@/components/layout/Navbar.vue";
 import LayoutHeroBanner from "@/components/layout/HeroBanner.vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { JsonParser } from "@ozkarjs/vhir";
-const defaultFunction = () => {
+import { useFHIR } from "@/store/fhir/fhir.index";
+const fhirStore = useFHIR();
+
+const startProver = (resourceId) => {
+  console.log(resourceId);
+  fhirStore.selectedResource = resourceId;
+  let queryObject;
+
+  switch (resourceId) {
+    case "heartbeat":
+      queryObject = Object.assign({
+        "/resourceType": { $eq: "Observation" },
+        "/valueQuantity/code": { $eq: "beats per minute" },
+      });
+      break;
+    case "weight":
+      queryObject = Object.assign({
+        "/resourceType": { $eq: "Observation" },
+        "/valueQuantity/code": { $eq: "kg" },
+      });
+      break;
+    case "height":
+      queryObject = Object.assign({
+        "/resourceType": { $eq: "Observation" },
+        "/valueQuantity/code": { $eq: "[cm_i]" },
+      });
+      break;
+    default:
+      queryObject = Object.assign({
+        "/resourceType": { $eq: "Observation" },
+      });
+
+      fhirStore.query = queryObject;
+  }
+
   console.log("default function");
   const e = JsonParser.linearizeJson({ "hello world": "hello world" });
 };
