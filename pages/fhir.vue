@@ -89,6 +89,7 @@
         </button>
       </div>
     </div>
+    <FhirQueryBuilder :default-query="{ hello: 'world' }"></FhirQueryBuilder>
   </div>
 </template>
 
@@ -98,42 +99,74 @@ import LayoutHeroBanner from "@/components/layout/HeroBanner.vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { JsonParser } from "@ozkarjs/vhir";
 import { useFHIR } from "@/store/fhir/fhir.index";
+//import { QueryBuilder } from "@/components/fhir/QueryBuilder.vue";
 const fhirStore = useFHIR();
 
 const startProver = (resourceId) => {
   console.log(resourceId);
   fhirStore.selectedResource = resourceId;
-  let queryObject;
-
+  console.log(fhirStore.getSelectedResourcePaths);
+  let queryValues;
   switch (resourceId) {
     case "heartbeat":
-      queryObject = Object.assign({
-        "/resourceType": { $eq: "Observation" },
-        "/valueQuantity/code": { $eq: "beats per minute" },
-      });
+      queryValues = [
+        {
+          path: "/resourceType",
+          comparisonOperator: "$eq",
+          value: "Observation",
+        },
+        {
+          path: "/valueQuantity/code",
+          comparisonOperator: "$eq",
+          value: "beats per minute",
+        },
+      ];
       break;
     case "weight":
-      queryObject = Object.assign({
-        "/resourceType": { $eq: "Observation" },
-        "/valueQuantity/code": { $eq: "kg" },
-      });
+      queryValues = [
+        {
+          path: "/resourceType",
+          comparisonOperator: "$eq",
+          value: "Observation",
+        },
+        {
+          path: "/valueQuantity/code",
+          comparisonOperator: "$eq",
+          value: "kg",
+        },
+      ];
       break;
     case "height":
+      queryValues = [
+        {
+          path: "/resourceType",
+          comparisonOperator: "$eq",
+          value: "Observation",
+        },
+        {
+          path: "/valueQuantity/code",
+          comparisonOperator: "$eq",
+          value: "[cm_i]",
+        },
+      ];
       queryObject = Object.assign({
         "/resourceType": { $eq: "Observation" },
         "/valueQuantity/code": { $eq: "[cm_i]" },
       });
       break;
     default:
-      queryObject = Object.assign({
-        "/resourceType": { $eq: "Observation" },
-      });
+      queryValues = [
+        {
+          path: "/resourceType",
+          comparisonOperator: "$eq",
+          value: "Observation",
+        },
+      ];
 
-      fhirStore.query = queryObject;
+      fhirStore.query = queryValues;
   }
 
-  console.log("default function");
-  const e = JsonParser.linearizeJson({ "hello world": "hello world" });
+  fhirStore.query = queryValues;
 };
 
 onMounted(async () => {});
