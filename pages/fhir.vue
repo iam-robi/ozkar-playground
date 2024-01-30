@@ -111,55 +111,59 @@ const startProver = (resourceId) => {
     case "heartbeat":
       queryValues = [
         {
-          path: "/resourceType",
+          path: "resourceType",
           comparisonOperator: "$eq",
           value: "Observation",
+          resourceId: resourceId,
         },
         {
-          path: "/valueQuantity/code",
+          path: "valueQuantity.code",
           comparisonOperator: "$eq",
           value: "beats per minute",
+          resourceId: resourceId,
         },
       ];
       break;
     case "weight":
       queryValues = [
         {
-          path: "/resourceType",
+          path: "resourceType",
           comparisonOperator: "$eq",
           value: "Observation",
+          resourceId: resourceId,
         },
         {
-          path: "/valueQuantity/code",
+          path: "valueQuantity.code",
           comparisonOperator: "$eq",
           value: "kg",
+          resourceId: resourceId,
         },
       ];
       break;
     case "height":
       queryValues = [
         {
-          path: "/resourceType",
+          path: "resourceType",
           comparisonOperator: "$eq",
           value: "Observation",
+          resourceId: resourceId,
         },
         {
-          path: "/valueQuantity/code",
+          path: "valueQuantity.code",
           comparisonOperator: "$eq",
           value: "[cm_i]",
+          resourceId: resourceId,
         },
       ];
-      queryObject = Object.assign({
-        "/resourceType": { $eq: "Observation" },
-        "/valueQuantity/code": { $eq: "[cm_i]" },
-      });
+
       break;
     default:
       queryValues = [
         {
-          path: "/resourceType",
+          path: "resourceType",
           comparisonOperator: "$eq",
           value: "Observation",
+          resourceId: resourceId,
         },
       ];
 

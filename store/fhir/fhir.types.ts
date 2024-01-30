@@ -5,6 +5,7 @@ export interface OperatorObject {
   path: String;
   comparisonOperator: ComparisonOperator;
   value: String;
+  resourceId: String;
 }
 
 export interface FHIRState {

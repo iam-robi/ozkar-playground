@@ -11,11 +11,12 @@ import {
 import type { Observation } from "@medplum/fhirtypes";
 export const useFHIR = defineStore("fhir", {
   state: (): FHIRState => ({
-    query: undefined,
+    query: [],
     newOperator: {
       path: "",
       comparisonOperator: "$eq",
       value: "",
+      resourceId: "",
     },
     merkleMap: {},
     selectedResource: "",

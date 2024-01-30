@@ -15,15 +15,26 @@
           <!-- head -->
           <thead>
             <tr>
-              <th></th>
+              <th>
+                <label>
+                  <input type="checkbox" class="checkbox" />
+                </label>
+              </th>
+              <!-- <th></th> -->
               <th>Path</th>
               <th>Comparison Operator</th>
               <th>Value</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(val, index) in valuesObjects" :key="index">
-              <th>{{ index + 1 }}</th>
+            <tr v-for="(val, index) in fhirStore.query" :key="index">
+              <th>
+                <label>
+                  <input type="checkbox" class="checkbox" />
+                </label>
+              </th>
+              <!-- <th>{{ index + 1 }}</th> -->
+
               <td>{{ val.path }}</td>
               <td>{{ val.comparisonOperator }}</td>
               <td>{{ val.value }}</td>
@@ -33,52 +44,45 @@
       </div>
 
       <h3 class="card-title">Add a comparator</h3>
-
-      <select
-        v-model="fhirStore.newOperator.path"
-        class="select select-primary w-full max-w-xs"
-      >
-        <option disabled selected>Select a path</option>
-        <option
-          v-for="(ln, index) in fhirStore.getSelectedResourcePaths"
-          :key="index"
-          :value="ln"
+      <div class="flex flex-row justify-between items-center space-x-4">
+        <select
+          v-model="fhirStore.newOperator.path"
+          class="select select-primary flex-1"
         >
-          {{ ln }} value: {{ fhirStore.getLinearResource[ln] }} 
-        </option>
-      </select>
+          <option disabled selected>Select a path</option>
+          <option
+            v-for="(ln, index) in fhirStore.getSelectedResourcePaths"
+            :key="index"
+            :value="ln"
+          >
+            {{ ln }} value:
+            {{ String(fhirStore.getLinearResource[ln]).substring(0, 20) }} 
+          </option>
+        </select>
 
-      <select
-        v-model="fhirStore.newOperator.comparisonOperator"
-        class="select select-primary w-full max-w-xs"
-      >
-        <option disabled selected>Select a comparison operator</option>
-        <option
-          v-for="(op, index) in comparisonOperators"
-          :key="index"
-          :value="op.value"
+        <select
+          v-model="fhirStore.newOperator.comparisonOperator"
+          class="select select-primary flex-1"
         >
-          {{ op.label }}
-        </option>
-      </select>
+          <option disabled selected>Select a comparison operator</option>
+          <option
+            v-for="(op, index) in comparisonOperators"
+            :key="index"
+            :value="op.value"
+          >
+            {{ op.label }}
+          </option>
+        </select>
 
-      <input
-        v-model="fhirStore.newOperator.value"
-        type="text"
-        placeholder="Enter value"
-        class="input w-full max-w-xs"
-      />
+        <input
+          v-model="fhirStore.newOperator.value"
+          type="text"
+          placeholder="Enter value"
+          class="input flex-1"
+        />
 
-      <button
-        @click="startProver('heartbeat')"
-        class="btn btn-accent w-full mt-4"
-      >
-        Add
-      </button>
-
-      <!-- <div class="card-actions justify-end">
-        <button class="btn btn-primary">Learn now!</button>
-      </div> -->
+        <button @click="addQuery" class="btn btn-accent">Add</button>
+      </div>
     </div>
   </div>
 </template>
@@ -93,9 +97,7 @@ const comparisonOperators = [
   { label: "Lower than", value: "$lt" },
   { label: "Lower than or equal", value: "$le" },
 ];
-const valuesObjects = [
-  { path: "/resourceType", comparisonOperator: "$eq", value: "Observation" },
-];
+
 const props = defineProps({
   defaultQuery: {},
   paths: [],
@@ -103,4 +105,14 @@ const props = defineProps({
     { path: "/resourceType", comparisonOperator: "$eq", value: "Observation" },
   ],
 });
+
+const addQuery = () => {
+  fhirStore.query.push(fhirStore.newOperator);
+  fhirStore.newOperator = {
+    path: "",
+    comparisonOperator: "",
+    value: "",
+    resourceId: fhirStore.selectedResource,
+  };
+};
 </script>
