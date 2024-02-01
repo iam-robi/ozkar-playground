@@ -9,6 +9,7 @@ export interface OperatorObject {
 }
 
 export interface FHIRState {
+  proofCart?: OperatorObject[][];
   query?: OperatorObject[];
   newOperator?: OperatorObject;
   merkleMap?: any;

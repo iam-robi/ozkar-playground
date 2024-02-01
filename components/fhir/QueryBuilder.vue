@@ -46,6 +46,20 @@
       <h3 class="card-title">Add a comparator</h3>
       <div class="flex flex-row justify-between items-center space-x-4">
         <select
+          v-model="fhirStore.selectedResource"
+          class="select select-primary flex-1"
+        >
+          <option disabled selected>Select a path</option>
+          <option
+            v-for="(observation, index) in fhirStore.observations"
+            :key="index"
+            :value="ln"
+          >
+            {{ observation.id }} 
+          </option>
+        </select>
+
+        <select
           v-model="fhirStore.newOperator.path"
           class="select select-primary flex-1"
         >
@@ -83,6 +97,9 @@
 
         <button @click="addQuery" class="btn btn-accent">Add</button>
       </div>
+      <button @click="addToProofCart" class="btn btn-accent">
+        Add to Cart
+      </button>
     </div>
   </div>
 </template>
@@ -108,6 +125,17 @@ const props = defineProps({
 
 const addQuery = () => {
   fhirStore.query.push(fhirStore.newOperator);
+  fhirStore.newOperator = {
+    path: "",
+    comparisonOperator: "",
+    value: "",
+    resourceId: fhirStore.selectedResource,
+  };
+};
+
+const addToProofCart = () => {
+  fhirStore.proofCart.push(fhirStore.query);
+  fhirStore.query = [];
   fhirStore.newOperator = {
     path: "",
     comparisonOperator: "",

@@ -11,6 +11,7 @@ import {
 import type { Observation } from "@medplum/fhirtypes";
 export const useFHIR = defineStore("fhir", {
   state: (): FHIRState => ({
+    proofCart: [],
     query: [],
     newOperator: {
       path: "",
