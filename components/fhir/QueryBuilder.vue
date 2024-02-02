@@ -53,7 +53,7 @@
           <option
             v-for="(observation, index) in fhirStore.observations"
             :key="index"
-            :value="ln"
+            :value="observation.id"
           >
             {{ observation.id }} 
           </option>
@@ -143,4 +143,11 @@ const addToProofCart = () => {
     resourceId: fhirStore.selectedResource,
   };
 };
+
+watch(
+  () => fhirStore.selectedResource,
+  (path) => {
+    console.log("watching", path);
+  }
+);
 </script>

@@ -23,12 +23,9 @@
           {{ fhirStore.fhirObservationHeartRate.valueQuantity.value }}
         </div>
         <div class="stat-desc">at rest heartbeat</div>
-        <button
-          @click="startProver('heartbeat')"
-          class="btn btn-accent w-full mt-4"
-        >
-          Prove
-        </button>
+        <div class="badge badge-neutral">
+          id: {{ fhirStore.fhirObservationHeartRate.id }}
+        </div>
       </div>
 
       <div class="stat">
@@ -52,12 +49,9 @@
           {{ fhirStore.fhirObservationHeight.valueQuantity.value }}
         </div>
         <div class="stat-desc">cm</div>
-        <button
-          @click="startProver('height')"
-          class="btn btn-accent w-full mt-4"
-        >
-          Prove
-        </button>
+        <div class="badge badge-neutral bottom-0 right-0">
+          id: {{ fhirStore.fhirObservationHeight.id }}
+        </div>
       </div>
 
       <div class="stat">
@@ -81,15 +75,12 @@
           {{ fhirStore.fhirObservationWeight.valueQuantity.value }}
         </div>
         <div class="stat-desc">↘︎ kgs</div>
-        <button
-          @click="startProver('weight')"
-          class="btn btn-accent w-full mt-4"
-        >
-          Prove
-        </button>
+        <div class="badge badge-neutral">
+          id: {{ fhirStore.fhirObservationWeight.id }}
+        </div>
       </div>
     </div>
-    <FhirQueryBuilder :default-query="{ hello: 'world' }"></FhirQueryBuilder>
+    <FhirQueryBuilder :default-query="{}"></FhirQueryBuilder>
   </div>
 </template>
 
