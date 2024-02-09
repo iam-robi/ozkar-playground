@@ -90,6 +90,7 @@ import LayoutHeroBanner from "@/components/layout/HeroBanner.vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { JsonParser } from "@ozkarjs/vhir";
 import { useFHIR } from "@/store/fhir/fhir.index";
+import { IPLD } from "@ozkarjs/zerkle";
 //import { QueryBuilder } from "@/components/fhir/QueryBuilder.vue";
 const fhirStore = useFHIR();
 

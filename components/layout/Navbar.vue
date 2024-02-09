@@ -26,17 +26,25 @@
             }}</span>
           </div>
         </div>
+
         <div
           tabindex="0"
           class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
         >
-          <div class="card-body">
-            <span class="font-bold text-lg"
-              >{{ fhirStore.proofCart?.length }} Proofs to compute</span
-            >
-            <span class="text-info">Subtotal: $999</span>
-            <div class="card-actions">
-              <button class="btn btn-primary btn-block">View cart</button>
+          <span class="font-bold text-lg"
+            >{{ fhirStore.proofCart?.length }} Proofs to compute
+          </span>
+
+          <div
+            class="card-body"
+            v-for="(proof, index) in fhirStore.proofCart"
+            :key="index"
+          >
+            <div class="flex items-center">
+              <!-- Add this div with flex and items-center classes -->
+              <span>Proof {{ index + 1 }}</span>
+              <!-- Wrapped text in span for better control -->
+              <Icon name="uil:file" color="white" />
             </div>
           </div>
         </div>

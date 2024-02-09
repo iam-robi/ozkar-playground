@@ -11,7 +11,12 @@ import crossOriginIsolation from "vite-plugin-cross-origin-isolation";
 export default defineNuxtConfig({
   ssr: false,
   devtools: { enabled: true },
-  modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "@nuxtjs/color-mode"],
+  modules: [
+    "@pinia/nuxt",
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/color-mode",
+    "nuxt-icon",
+  ],
   pinia: {
     storesDirs: ["./store/**"],
   },
