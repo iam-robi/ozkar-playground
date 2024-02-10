@@ -23,9 +23,10 @@
           {{ fhirStore.fhirObservationHeartRate.valueQuantity.value }}
         </div>
         <div class="stat-desc">at rest heartbeat</div>
-        <div class="badge badge-neutral">
+        <FhirResourceQueryModal />
+        <!-- <div class="badge badge-neutral">
           id: {{ fhirStore.fhirObservationHeartRate.id }}
-        </div>
+        </div> -->
       </div>
 
       <div class="stat">
@@ -49,9 +50,10 @@
           {{ fhirStore.fhirObservationHeight.valueQuantity.value }}
         </div>
         <div class="stat-desc">cm</div>
-        <div class="badge badge-neutral bottom-0 right-0">
+        <FhirResourceQueryModal />
+        <!-- <div class="badge badge-neutral bottom-0 right-0">
           id: {{ fhirStore.fhirObservationHeight.id }}
-        </div>
+        </div> -->
       </div>
 
       <div class="stat">
@@ -75,12 +77,13 @@
           {{ fhirStore.fhirObservationWeight.valueQuantity.value }}
         </div>
         <div class="stat-desc">↘︎ kgs</div>
-        <div class="badge badge-neutral">
-          id: {{ fhirStore.fhirObservationWeight.id }}
-        </div>
+        <FhirResourceQueryModal />
+        <!-- <div class="badge badge-neutral">
+          <FhirResourceQueryModal />
+        </div> -->
       </div>
     </div>
-    <FhirQueryBuilder :default-query="{}"></FhirQueryBuilder>
+    <!-- <FhirQueryBuilder :default-query="{}"></FhirQueryBuilder> -->
   </div>
 </template>
 
