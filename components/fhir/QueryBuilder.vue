@@ -7,8 +7,8 @@
         /> -->
     </figure>
     <div class="card-body">
-      <h2 class="card-title">Query Builder</h2>
-      <p>Create the query you would like to prove for the FHIR Resource</p>
+      <!-- <h2 class="card-title">Query Builder</h2>
+      <p>Create the query you would like to prove for the FHIR Resource</p> -->
 
       <div class="overflow-x-auto">
         <table class="table table-zebra">
@@ -43,22 +43,8 @@
         </table>
       </div>
 
-      <h3 class="card-title">Add a comparator</h3>
-      <div class="flex flex-row justify-between items-center space-x-4">
-        <select
-          v-model="fhirStore.selectedResource"
-          class="select select-primary flex-1"
-        >
-          <option disabled selected>Select a path</option>
-          <option
-            v-for="(observation, index) in fhirStore.observations"
-            :key="index"
-            :value="observation.id"
-          >
-            {{ observation.id }} 
-          </option>
-        </select>
-
+      <h3 class="">Add a comparator</h3>
+      <div class="justify-between items-center space-x-4">
         <select
           v-model="fhirStore.newOperator.path"
           class="select select-primary flex-1"
@@ -69,8 +55,8 @@
             :key="index"
             :value="ln"
           >
-            {{ ln }} value:
-            {{ String(fhirStore.getLinearResource[ln]).substring(0, 20) }} 
+            {{ ln }} 
+            <!-- value: {{ String(fhirStore.getLinearResource[ln]).substring(0, 20) }}  -->
           </option>
         </select>
 
@@ -97,16 +83,16 @@
 
         <button @click="addQuery" class="btn btn-accent">Add</button>
       </div>
-      <button @click="addToProofCart" class="btn btn-accent">
+      <!-- <button @click="addToProofCart" class="btn btn-accent">
         Add to Cart
-      </button>
+      </button> -->
     </div>
   </div>
 </template>
 <script setup>
 import { useFHIR } from "@/store/fhir/fhir.index";
-const fhirStore = useFHIR();
 
+const fhirStore = useFHIR();
 const comparisonOperators = [
   { label: "Equal", value: "$eq" },
   { label: "Greather than", value: "$gt" },

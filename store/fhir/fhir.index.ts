@@ -393,6 +393,44 @@ export const useFHIR = defineStore("fhir", {
       const backend = await backendFactory.build(this.merkleMap.witnessLength);
       const proofE = await backend.execute(this.merkleMap, q);
     },
+    setBasicQuery: function (resource: any) {
+      if (resource.resourceType === "Observation") {
+        this.query = [
+          {
+            path: "resourceType",
+            comparisonOperator: "$eq",
+            value: resource.resourceType,
+            resourceId: resource.id,
+          },
+          {
+            path: "status",
+            comparisonOperator: "$eq",
+            value: "final",
+            resourceId: resource.id,
+          },
+          {
+            path: "code.coding.0.system",
+            comparisonOperator: "$eq",
+            value: resource.code.coding[0].system,
+            resourceId: resource.id,
+          },
+          {
+            path: "code.coding.0.code",
+            comparisonOperator: "$eq",
+            value: resource.code.coding[0].code,
+            resourceId: resource.id,
+          },
+        ];
+        if (resource.hasOwnProperty("valueQuantity")) {
+          this.query.push({
+            path: "valueQuantity.unit",
+            comparisonOperator: "$eq",
+            value: resource.valueQuantity.unit,
+            resourceId: resource.id,
+          });
+        }
+      }
+    },
   },
 
   getters: {

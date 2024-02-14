@@ -53,10 +53,10 @@
               </div> -->
               <FhirQueryBuilder :default-query="{}"></FhirQueryBuilder>
               <div class="mt-4">
-                <button class="btn btn-success" @click="closeModal">
+                <button class="btn btn-outline btn-success" @click="closeModal">
                   Confirm
                 </button>
-                <button class="btn btn-error" @click="closeModal">
+                <button class="btn btn-outline btn-error" @click="closeModal">
                   Cancel
                 </button>
                 <!-- <button
@@ -84,7 +84,8 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/vue";
-
+import { useFHIR } from "@/store/fhir/fhir.index";
+const fhirStore = useFHIR();
 const isOpen = ref(false);
 
 // const props = defineProps({
@@ -100,6 +101,8 @@ function closeModal() {
   isOpen.value = false;
 }
 function openModal() {
+  fhirStore.selectedResource = props.resource.id;
+  fhirStore.setBasicQuery(props.resource);
   isOpen.value = true;
 }
 </script>
