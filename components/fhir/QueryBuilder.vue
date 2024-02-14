@@ -10,41 +10,25 @@
       <!-- <h2 class="card-title">Query Builder</h2>
       <p>Create the query you would like to prove for the FHIR Resource</p> -->
 
-      <div class="overflow-x-auto">
-        <table class="table table-zebra">
-          <!-- head -->
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" class="checkbox" />
-                </label>
-              </th>
-              <!-- <th></th> -->
-              <th>Path</th>
-              <th>Comparison Operator</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(val, index) in fhirStore.query" :key="index">
-              <th>
-                <label>
-                  <input type="checkbox" class="checkbox" />
-                </label>
-              </th>
-              <!-- <th>{{ index + 1 }}</th> -->
-
-              <td>{{ val.path }}</td>
-              <td>{{ val.comparisonOperator }}</td>
-              <td>{{ val.value }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div
+        class="overflow-x-auto"
+        v-for="(operator, index) in fhirStore.query"
+        :key="index"
+      >
+        <div class="badges-container">
+          <div class="badge badge-primary">{{ operator.path }}</div>
+          &nbsp; &nbsp;
+          <div class="badge badge-ghost">=</div>
+          &nbsp; &nbsp;
+          <div class="badge badge-secondary">
+            {{ operator.value }}
+          </div>
+        </div>
       </div>
+      <div class="overflow-x-auto"></div>
 
-      <h3 class="">Add a comparator</h3>
-      <div class="justify-between items-center space-x-4">
+      <FhirObservationValueQuery :resource="fhirStore.getSelectedResource" />
+      <!-- <div class="justify-between items-center space-x-4">
         <select
           v-model="fhirStore.newOperator.path"
           class="select select-primary flex-1"
@@ -56,7 +40,6 @@
             :value="ln"
           >
             {{ ln }} 
-            <!-- value: {{ String(fhirStore.getLinearResource[ln]).substring(0, 20) }}  -->
           </option>
         </select>
 
@@ -82,7 +65,7 @@
         />
 
         <button @click="addQuery" class="btn btn-accent">Add</button>
-      </div>
+      </div> -->
       <!-- <button @click="addToProofCart" class="btn btn-accent">
         Add to Cart
       </button> -->
@@ -91,7 +74,6 @@
 </template>
 <script setup>
 import { useFHIR } from "@/store/fhir/fhir.index";
-
 const fhirStore = useFHIR();
 const comparisonOperators = [
   { label: "Equal", value: "$eq" },
