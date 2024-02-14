@@ -454,5 +454,12 @@ export const useFHIR = defineStore("fhir", {
       )[0];
       return JsonParser.linearizeJson(resource);
     },
+    getQueryContainsPath: (state) => (path: any) => {
+      if (state.query === undefined) return false;
+      else {
+        return state.query.filter((query) => query.path === path).length > 0;
+      }
+      //return state.query?.filter((query) => query.path === path).length > 0;
+    },
   },
 });

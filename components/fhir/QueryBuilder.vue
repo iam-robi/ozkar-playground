@@ -18,7 +18,9 @@
         <div class="badges-container">
           <div class="badge badge-primary">{{ operator.path }}</div>
           &nbsp; &nbsp;
-          <div class="badge badge-ghost">=</div>
+          <div class="badge badge-ghost">
+            {{ displayComparator(operator.comparisonOperator) }}
+          </div>
           &nbsp; &nbsp;
           <div class="badge badge-secondary">
             {{ operator.value }}
@@ -28,6 +30,7 @@
       <div class="overflow-x-auto"></div>
 
       <FhirObservationValueQuery :resource="fhirStore.getSelectedResource" />
+
       <!-- <div class="justify-between items-center space-x-4">
         <select
           v-model="fhirStore.newOperator.path"
@@ -110,6 +113,23 @@ const addToProofCart = () => {
     value: "",
     resourceId: fhirStore.selectedResource,
   };
+};
+
+const displayComparator = (v) => {
+  switch (v) {
+    case "$eq":
+      return "=";
+    case "$gt":
+      return ">";
+    case "$ge":
+      return ">=";
+    case "$lt":
+      return "<";
+    case "$le":
+      return "<=";
+    default:
+      return "?";
+  }
 };
 
 watch(
