@@ -30,9 +30,11 @@
           placeholder="Value to compare"
         />
         <span class="badge badge-ghost badge-xs font-bold"
-          ><span>{{ resource.valueQuantity.value }}</span></span
+          ><span>{{ resource.valueQuantity.unit }}</span></span
         >
       </label>
+      <span>actual value: {{ resource.valueQuantity.value }}</span
+      ><br /><br />
       <button class="btn btn-outline btn-primary" @click="addQuantityQuery">
         Add
       </button>

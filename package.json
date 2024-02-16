@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@medplum/fhirtypes": "^3.0.1",
+    "@nuxt/ui": "^2.13.0",
     "@ozkarjs/sequence-verifiers": "^0.1.6",
     "@ozkarjs/vhir": "^0.2.6",
     "@ozkarjs/zerkle": "^0.0.1",
