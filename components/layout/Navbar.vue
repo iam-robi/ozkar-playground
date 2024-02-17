@@ -22,7 +22,7 @@
               />
             </svg>
             <span class="badge badge-sm indicator-item">{{
-              fhirStore.proofCart?.length
+              Object.keys(fhirStore.preparedQueries).length
             }}</span>
           </div>
         </div>
@@ -32,7 +32,8 @@
           class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
         >
           <span class="font-bold text-lg"
-            >{{ fhirStore.proofCart?.length }} Proofs to compute
+            >{{ Object.keys(fhirStore.preparedQueries).length }} Proofs to
+            compute
           </span>
 
           <div
@@ -117,6 +118,7 @@ const themes = [
 ];
 
 const compute = () => {
+  fhirStore.formatProvingRequest();
   console.log("Runs computing");
 };
 </script>

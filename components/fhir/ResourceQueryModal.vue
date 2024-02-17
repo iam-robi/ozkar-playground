@@ -47,12 +47,7 @@
                 Prove data point
                 <div class="badge badge-neutral">{{ resource.id }}</div>
               </DialogTitle>
-              <!-- <div class="mt-2">
-                <p class="text-sm text-gray-500">
-                  Your payment has been successfully submitted. We’ve sent you
-                  an email with all of the details of your order.
-                </p>
-              </div> -->
+
               <FhirQueryBuilder :default-query="{}"></FhirQueryBuilder>
               <div class="mt-4">
                 <button class="btn btn-outline btn-success" @click="confirm">
@@ -61,13 +56,6 @@
                 <button class="btn btn-outline btn-error" @click="closeModal">
                   Cancel
                 </button>
-                <!-- <button
-                  type="button"
-                  class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  @click="closeModal"
-                >
-                  Cancel
-                </button> -->
               </div>
             </DialogPanel>
           </TransitionChild>
@@ -90,11 +78,6 @@ import { useFHIR } from "@/store/fhir/fhir.index";
 const fhirStore = useFHIR();
 const isOpen = ref(false);
 
-// const props = defineProps({
-//   query: {},
-//   resource: {},
-// });
-
 const props = defineProps({
   resource: {},
 });
@@ -103,7 +86,6 @@ function closeModal() {
   isOpen.value = false;
 }
 function confirm() {
-  fhirStore.proofCart.push(fhirStore.query);
   fhirStore.preparedQueries[fhirStore.selectedResource] = fhirStore.query;
   fhirStore.query = [];
   closeModal();

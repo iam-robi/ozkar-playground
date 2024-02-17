@@ -9,15 +9,11 @@ export interface OperatorObject {
 }
 
 export interface FHIRState {
-  proofCart?: OperatorObject[][];
   query?: OperatorObject[];
   newOperator?: OperatorObject;
   merkleMap?: any;
   selectedResource: String;
   observations: Observation[];
-  fhirObservationWeight: Observation;
-  fhirObservationHeight: Observation;
-  fhirObservationHeartRate: Observation;
   proofs: Array<String>;
   preparedQueries: any;
 }
