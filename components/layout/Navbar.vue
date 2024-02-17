@@ -47,6 +47,9 @@
               <Icon name="uil:file" color="white" />
             </div>
           </div>
+          <button @click="compute" class="btn btn-accent">
+            Compute Proofs
+          </button>
         </div>
       </div>
       <div class="dropdown dropdown-end">
@@ -112,4 +115,8 @@ const themes = [
   "coffee",
   "winter",
 ];
+
+const compute = () => {
+  console.log("Runs computing");
+};
 </script>
