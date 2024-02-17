@@ -1,11 +1,13 @@
 <template>
   <div class="flex items-center justify-center">
-    <button
-      type="button"
-      @click="openModal"
-      class="rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
-    >
+    <button type="button" @click="openModal" class="btn">
       Proof
+      <div
+        v-if="fhirStore.preparedQueries.hasOwnProperty(resource.id)"
+        class="badge badge-outline"
+      >
+        prepared
+      </div>
     </button>
   </div>
   <TransitionRoot appear :show="isOpen" as="template">
@@ -53,7 +55,7 @@
               </div> -->
               <FhirQueryBuilder :default-query="{}"></FhirQueryBuilder>
               <div class="mt-4">
-                <button class="btn btn-outline btn-success" @click="closeModal">
+                <button class="btn btn-outline btn-success" @click="confirm">
                   Confirm
                 </button>
                 <button class="btn btn-outline btn-error" @click="closeModal">
@@ -100,9 +102,20 @@ const props = defineProps({
 function closeModal() {
   isOpen.value = false;
 }
+function confirm() {
+  fhirStore.proofCart.push(fhirStore.query);
+  fhirStore.preparedQueries[fhirStore.selectedResource] = fhirStore.query;
+  fhirStore.query = [];
+  closeModal();
+}
+
 function openModal() {
   fhirStore.selectedResource = props.resource.id;
-  fhirStore.setBasicQuery(props.resource);
+  if (fhirStore.preparedQueries.hasOwnProperty(props.resource.id)) {
+    fhirStore.query = fhirStore.preparedQueries[props.resource.id];
+  } else {
+    fhirStore.setBasicQuery(props.resource);
+  }
   isOpen.value = true;
 }
 </script>

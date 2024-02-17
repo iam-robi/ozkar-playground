@@ -380,6 +380,7 @@ export const useFHIR = defineStore("fhir", {
       },
     },
     proofs: [],
+    preparedQueries: {},
   }),
   actions: {
     generateMap: function (resource: any) {

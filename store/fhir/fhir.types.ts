@@ -19,4 +19,5 @@ export interface FHIRState {
   fhirObservationHeight: Observation;
   fhirObservationHeartRate: Observation;
   proofs: Array<String>;
+  preparedQueries: any;
 }
