@@ -1,0 +1,3 @@
+query getWorflowStatus($workflowIds: WorflowsStatusInput!) {
+  getWorflowStatus(workflowIds: $workflowIds)
+}

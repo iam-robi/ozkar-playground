@@ -1,6 +1,6 @@
 import type { Observation } from "@medplum/fhirtypes";
 import type { ComparisonOperator } from "@ozkarjs/vhir";
-
+import type { WorkflowExecutionDescription } from "@temporalio/client";
 export interface OperatorObject {
   path: String;
   comparisonOperator: ComparisonOperator;
@@ -16,4 +16,6 @@ export interface FHIRState {
   observations: Observation[];
   proofs: Array<String>;
   preparedQueries: any;
+  proofRequestsIds: Array<String>;
+  provingWorkflowStatus: Array<WorkflowExecutionDescription>;
 }

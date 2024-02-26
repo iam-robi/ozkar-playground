@@ -1,0 +1,3 @@
+query requestProofs($proofRequests: CreateProofInput!) {
+  requestProofs(proofRequests: $proofRequests)
+}

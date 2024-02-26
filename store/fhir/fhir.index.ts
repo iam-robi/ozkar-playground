@@ -1,14 +1,13 @@
 // following this example https://github.com/productdevbook/oku-nuxt3-template/tree/master/src
 import { defineStore } from "pinia";
 import type { FHIRState } from "~/store/fhir/fhir.types";
-import { PublicKey, Mina, Field } from "o1js";
-import {
-  JsonParser,
-  LinearModel,
-  MINA_MERKLE_MAP_FACTORY,
-  BackendFactory,
-} from "@ozkarjs/vhir";
+
+import { JsonParser } from "@ozkarjs/vhir";
+
+import { GqlRequestProofs, GqlGetWorflowStatus } from "#imports";
 import type { Observation } from "@medplum/fhirtypes";
+
+import type { WorflowsStatusInput } from "~/types/cloudprover/graphql";
 export const useFHIR = defineStore("fhir", {
   state: (): FHIRState => ({
     query: [],
@@ -202,19 +201,10 @@ export const useFHIR = defineStore("fhir", {
     ],
     proofs: [],
     preparedQueries: {},
+    proofRequestsIds: [],
+    provingWorkflowStatus: [],
   }),
   actions: {
-    generateMap: function (resource: any) {
-      const ln = LinearModel.fromJS(resource);
-      console.log(ln);
-      this.merkleMap = MINA_MERKLE_MAP_FACTORY.fromLinearModel(ln);
-    },
-    prove: async function (query: any) {
-      const q = query.parse(query);
-      const backendFactory = new BackendFactory();
-      const backend = await backendFactory.build(this.merkleMap.witnessLength);
-      const proofE = await backend.execute(this.merkleMap, q);
-    },
     setBasicQuery: function (resource: any) {
       if (resource.resourceType === "Observation") {
         this.query = [
@@ -253,12 +243,9 @@ export const useFHIR = defineStore("fhir", {
         }
       }
     },
-
     formatProvingRequest: function () {
       const keys = Object.keys(this.preparedQueries);
-
       const provingRequests: any = [];
-
       keys.forEach((key) => {
         const queryElements = this.preparedQueries[key];
 
@@ -274,6 +261,29 @@ export const useFHIR = defineStore("fhir", {
         const provingRequest = { queryObject, resource };
         provingRequests.push(provingRequest);
       });
+      return provingRequests;
+    },
+    requestProofs: async function () {
+      const provingRequests = this.formatProvingRequest();
+      try {
+        const proofRequestsIds = await GqlRequestProofs(provingRequests);
+        this.proofRequestsIds = proofRequestsIds.requestProofs;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    getWorkflowStatus: async function () {
+      //TODO: fix typescript errors
+      try {
+        const workflowStatus = await GqlGetWorflowStatus({
+          // @ts-ignore
+          workflowIds: this.proofRequestsIds,
+        });
+        // @ts-ignore
+        this.provingWorkflowStatus = workflowStatus;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 
