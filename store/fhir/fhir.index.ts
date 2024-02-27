@@ -209,25 +209,25 @@ export const useFHIR = defineStore("fhir", {
       if (resource.resourceType === "Observation") {
         this.query = [
           {
-            path: "resourceType",
+            path: "/resourceType",
             comparisonOperator: "$eq",
             value: resource.resourceType,
             resourceId: resource.id,
           },
           {
-            path: "status",
+            path: "/status",
             comparisonOperator: "$eq",
             value: "final",
             resourceId: resource.id,
           },
           {
-            path: "code.coding.0.system",
+            path: "/code/coding/'0/system",
             comparisonOperator: "$eq",
             value: resource.code.coding[0].system,
             resourceId: resource.id,
           },
           {
-            path: "code.coding.0.code",
+            path: "/code/coding/'0/code",
             comparisonOperator: "$eq",
             value: resource.code.coding[0].code,
             resourceId: resource.id,
@@ -235,7 +235,7 @@ export const useFHIR = defineStore("fhir", {
         ];
         if (resource.hasOwnProperty("valueQuantity")) {
           this.query.push({
-            path: "valueQuantity.unit",
+            path: "/valueQuantity/unit",
             comparisonOperator: "$eq",
             value: resource.valueQuantity.unit,
             resourceId: resource.id,
@@ -249,38 +249,38 @@ export const useFHIR = defineStore("fhir", {
       keys.forEach((key) => {
         const queryElements = this.preparedQueries[key];
 
-        const queryObject = Object.assign({});
+        const query = Object.assign({});
         queryElements.forEach((queryElement: any) => {
-          const reformattedPath = "/" + queryElement.path.split(".").join("/");
-          queryObject[reformattedPath] = {
+          query[queryElement.path] = {
             [queryElement.comparisonOperator]: queryElement.value,
           };
         });
 
         const resource = this.observations.filter((obs) => obs.id === key)[0];
-        const provingRequest = { queryObject, resource };
+        const provingRequest = { query, resource };
         provingRequests.push(provingRequest);
       });
+      console.log(provingRequests);
       return provingRequests;
     },
     requestProofs: async function () {
       const provingRequests = this.formatProvingRequest();
+      const serializedProvingRequests = JSON.stringify(provingRequests);
       try {
-        const proofRequestsIds = await GqlRequestProofs(provingRequests);
+        const proofRequestsIds = await GqlRequestProofs({
+          proofRequests: { proofRequests: provingRequests },
+        });
         this.proofRequestsIds = proofRequestsIds.requestProofs;
       } catch (error) {
         console.log(error);
       }
     },
     getWorkflowStatus: async function () {
-      //TODO: fix typescript errors
       try {
         const workflowStatus = await GqlGetWorflowStatus({
-          // @ts-ignore
-          workflowIds: this.proofRequestsIds,
+          workflowIds: { workflowIds: this.proofRequestsIds },
         });
-        // @ts-ignore
-        this.provingWorkflowStatus = workflowStatus;
+        this.provingWorkflowStatus = workflowStatus.getWorflowStatus;
       } catch (error) {
         console.log(error);
       }

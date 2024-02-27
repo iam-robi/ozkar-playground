@@ -117,8 +117,7 @@ const themes = [
   "winter",
 ];
 
-const compute = () => {
-  fhirStore.formatProvingRequest();
-  console.log("Runs computing");
+const compute = async () => {
+  await fhirStore.requestProofs();
 };
 </script>

@@ -3,7 +3,7 @@
     <div
       v-if="
         resource.hasOwnProperty('valueQuantity') &&
-        !fhirStore.getQueryContainsPath('valueQuantity.value')
+        !fhirStore.getQueryContainsPath('/valueQuantity/value')
       "
     >
       <select v-model="selectedComparator" class="select w-full max-w-xs">
@@ -61,7 +61,7 @@ const selectedComparator = ref(comparisonOperators[0].value); // Initialize with
 const inputValue = ref("");
 const addQuantityQuery = () => {
   const query = {
-    path: "valueQuantity.value",
+    path: "/valueQuantity/value",
     comparisonOperator: selectedComparator,
     value: inputValue,
     resourceId: fhirStore.selectedResource.id,

@@ -16,6 +16,6 @@ export interface FHIRState {
   observations: Observation[];
   proofs: Array<String>;
   preparedQueries: any;
-  proofRequestsIds: Array<String>;
+  proofRequestsIds: string[];
   provingWorkflowStatus: Array<WorkflowExecutionDescription>;
 }
