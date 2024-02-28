@@ -294,6 +294,11 @@ export const useFHIR = defineStore("fhir", {
         (observation: Observation) => observation.id === resourceId
       )[0];
     },
+    getResourceById: (state) => (resourceId: any) => {
+      return state.observations.filter(
+        (observation: Observation) => observation.id === resourceId
+      )[0];
+    },
     getSelectedResourcePaths: (state) => {
       let resourceId = state.selectedResource;
       let resource = state.observations.filter(
