@@ -88,10 +88,15 @@
 
           <br />
           <button @click="compute" class="btn btn-accent">
-            Compute Proofs with Cloud Prover
+            Send to Cloud Prover
+            <UIcon
+              style="font-weight: 900"
+              name="i-heroicons-paper-airplane-solid
+"
+            />
           </button>
-
-          <Placeholder class="h-full" />
+          <!-- 
+          <Placeholder class="h-full" /> -->
         </UCard>
       </USlideover>
     </div>

@@ -8,6 +8,11 @@ export interface OperatorObject {
   resourceId: String;
 }
 
+export interface ProvingRequestStatus {
+  resourceId: string;
+  workflowId: string;
+  workflowDescription?: WorkflowExecutionDescription;
+}
 export interface FHIRState {
   query?: OperatorObject[];
   newOperator?: OperatorObject;
@@ -18,4 +23,5 @@ export interface FHIRState {
   preparedQueries: any;
   proofRequestsIds: string[];
   provingWorkflowStatus: Array<WorkflowExecutionDescription>;
+  provingRequestStatuses: ProvingRequestStatus[];
 }

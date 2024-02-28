@@ -3,10 +3,10 @@ import { defineStore } from "pinia";
 import type { FHIRState } from "~/store/fhir/fhir.types";
 
 import { JsonParser } from "@ozkarjs/vhir";
-
+import { CircuitString } from "o1js";
 import { GqlRequestProofs, GqlGetWorflowStatus } from "#imports";
 import type { Observation } from "@medplum/fhirtypes";
-
+import { $mina } from "~/plugins/mina";
 import type { WorflowsStatusInput } from "~/types/cloudprover/graphql";
 export const useFHIR = defineStore("fhir", {
   state: (): FHIRState => ({
@@ -264,8 +264,22 @@ export const useFHIR = defineStore("fhir", {
       return provingRequests;
     },
     requestProofs: async function () {
+      const { $mina } = useNuxtApp();
       const provingRequests = this.formatProvingRequest();
       const serializedProvingRequests = JSON.stringify(provingRequests);
+      // Encode the string into a Uint8Array
+      const encoder = new TextEncoder();
+      const data = encoder.encode(serializedProvingRequests);
+
+      // Use the SubtleCrypto API to hash the data
+      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+
+      // Convert the buffer to a hexadecimal string
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
+
       try {
         const proofRequestsIds = await GqlRequestProofs({
           proofRequests: { proofRequests: provingRequests },
@@ -274,6 +288,19 @@ export const useFHIR = defineStore("fhir", {
       } catch (error) {
         console.log(error);
       }
+
+      let count = 0;
+      let provingRequestStatuses = [];
+
+      provingRequests.forEach((provingRequest: any) => {
+        const provingRequestStatus = {
+          workflowId: this.proofRequestsIds[count],
+          worfklowDescription: null,
+          resourceId: provingRequest.resource.id,
+        };
+        this.provingRequestStatuses.push(provingRequestStatus);
+        count++;
+      });
     },
     getWorkflowStatus: async function () {
       try {
