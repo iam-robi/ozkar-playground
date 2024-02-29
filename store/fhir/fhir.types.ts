@@ -1,6 +1,7 @@
-import type { Observation } from "@medplum/fhirtypes";
+import type { Observation, AdverseEvent } from "@medplum/fhirtypes";
 import type { ComparisonOperator } from "@ozkarjs/vhir";
 import type { WorkflowExecutionDescription } from "@temporalio/client";
+
 export interface OperatorObject {
   path: String;
   comparisonOperator: ComparisonOperator;
@@ -28,6 +29,7 @@ export interface FHIRState {
   merkleMap?: any;
   selectedResource: String;
   observations: Observation[];
+  adverseEvents: AdverseEvent[];
   proofs: Array<String>;
   preparedQueries: QueryList;
   proofRequestsIds: string[];

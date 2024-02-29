@@ -198,6 +198,158 @@ export const useFHIR = defineStore("fhir", {
         },
       },
     ],
+    adverseEvents: [
+      {
+        resourceType: "AdverseEvent",
+        id: "uuid-1",
+        subject: {
+          display: "Patient Example One",
+        },
+        date: "2024-02-01",
+        actuality: "actual",
+        event: {
+          coding: [
+            {
+              system: "https://www.meddra.org/how-to-use/basics/hierarchy",
+              code: "10016558",
+              display: "Fever",
+            },
+          ],
+          text: "Patient experienced a mild fever.",
+        },
+        severity: {
+          coding: [
+            {
+              system:
+                "http://ctep.cancer.gov/protocolDevelopment/electronic_applications/ctc.htm#ctc_50",
+              code: "1",
+              display: "Grade 1",
+            },
+          ],
+          text: "Grade 1",
+        },
+      },
+      {
+        resourceType: "AdverseEvent",
+        id: "uuid-2",
+        subject: {
+          display: "Patient Example Two",
+        },
+        date: "2024-02-02",
+        actuality: "actual",
+        event: {
+          coding: [
+            {
+              system: "https://www.meddra.org/how-to-use/basics/hierarchy",
+              code: "10029104",
+              display: "Fatigue",
+            },
+          ],
+          text: "Patient reported significant fatigue.",
+        },
+        severity: {
+          coding: [
+            {
+              system:
+                "http://ctep.cancer.gov/protocolDevelopment/electronic_applications/ctc.htm#ctc_50",
+              code: "2",
+              display: "Grade 2",
+            },
+          ],
+          text: "Grade 2",
+        },
+      },
+      {
+        resourceType: "AdverseEvent",
+        id: "uuid-3",
+        subject: {
+          display: "Patient Example Three",
+        },
+        date: "2024-02-03",
+        actuality: "actual",
+        event: {
+          coding: [
+            {
+              system: "https://www.meddra.org/how-to-use/basics/hierarchy",
+              code: "10000719",
+              display: "Abdominal pain",
+            },
+          ],
+          text: "Severe abdominal pain reported.",
+        },
+        severity: {
+          coding: [
+            {
+              system:
+                "http://ctep.cancer.gov/protocolDevelopment/electronic_applications/ctc.htm#ctc_50",
+              code: "3",
+              display: "Grade 3",
+            },
+          ],
+          text: "Grade 3",
+        },
+      },
+      {
+        resourceType: "AdverseEvent",
+        id: "uuid-4",
+        subject: {
+          display: "Patient Example Four",
+        },
+        date: "2024-02-04",
+        actuality: "actual",
+        event: {
+          coding: [
+            {
+              system: "https://www.meddra.org/how-to-use/basics/hierarchy",
+              code: "10033371",
+              display: "Palpitations",
+            },
+          ],
+          text: "Patient experienced severe palpitations.",
+        },
+        severity: {
+          coding: [
+            {
+              system:
+                "http://ctep.cancer.gov/protocolDevelopment/electronic_applications/ctc.htm#ctc_50",
+              code: "4",
+              display: "Grade 4",
+            },
+          ],
+          text: "Grade 4",
+        },
+      },
+      {
+        resourceType: "AdverseEvent",
+        id: "uuid-5",
+        subject: {
+          display: "Patient Example Five",
+        },
+        date: "2024-02-05",
+        actuality: "actual",
+        event: {
+          coding: [
+            {
+              system: "https://www.meddra.org/how-to-use/basics/hierarchy",
+              code: "10008738",
+              display: "Cough",
+            },
+          ],
+          text: "Patient reported a persistent, severe cough.",
+        },
+        severity: {
+          coding: [
+            {
+              system:
+                "http://ctep.cancer.gov/protocolDevelopment/electronic_applications/ctc.htm#ctc_50",
+              code: "5",
+              display: "Grade 5",
+            },
+          ],
+          text: "Grade 5",
+        },
+      },
+    ],
     proofs: [],
     preparedQueries: {},
     proofRequestsIds: [],
