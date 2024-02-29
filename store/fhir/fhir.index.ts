@@ -3,11 +3,10 @@ import { defineStore } from "pinia";
 import type { FHIRState } from "~/store/fhir/fhir.types";
 
 import { JsonParser } from "@ozkarjs/vhir";
-import { CircuitString } from "o1js";
 import { GqlRequestProofs, GqlGetWorflowStatus } from "#imports";
 import type { Observation } from "@medplum/fhirtypes";
-import { $mina } from "~/plugins/mina";
-import type { WorflowsStatusInput } from "~/types/cloudprover/graphql";
+import { useNavigation } from "../navigation/navigation.index";
+
 export const useFHIR = defineStore("fhir", {
   state: (): FHIRState => ({
     query: [],
@@ -22,7 +21,7 @@ export const useFHIR = defineStore("fhir", {
     observations: [
       {
         resourceType: "Observation",
-        id: "weight",
+        id: "fb2fe821-7406-4566-8e19-a05099840eb3",
         meta: {
           profile: [
             "http://hl7.org/fhir/us/vitals/StructureDefinition/body-weight",
@@ -97,7 +96,7 @@ export const useFHIR = defineStore("fhir", {
       },
       {
         resourceType: "Observation",
-        id: "height",
+        id: "d01fd0ef-9f80-440b-accb-23b536151a0b",
         meta: {
           profile: ["http://hl7.org/fhir/StructureDefinition/vitalsigns"],
         },
@@ -142,7 +141,7 @@ export const useFHIR = defineStore("fhir", {
       },
       {
         resourceType: "Observation",
-        id: "heartbeat",
+        id: "4aca574c-2597-4062-b1af-2649a0c4f7da",
         text: {
           status: "generated",
           div: '<div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative: Observation</b><a name="ExampleAverageRestingHeartRate"> </a></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource Observation &quot;ExampleAverageRestingHeartRate&quot; </p></div><p><b>status</b>: final</p><p><b>category</b>: Activity <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/5.0.0/CodeSystem-observation-category.html">Observation Category Codes</a>#activity)</span>, Physical Activity <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="CodeSystem-pa-temporary-codes.html">Temporary Codes</a>#PhysicalActivity)</span></p><p><b>code</b>: Heart rate --resting <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#40443-4)</span></p><p><b>subject</b>: <a href="http://example.org/Patient/1">http://example.org/Patient/1: Example Patient</a></p><p><b>effective</b>: 2022-06-01 --&gt; 2022-06-08</p><p><b>performer</b>: <a href="http://example.org/Patient/1">http://example.org/Patient/1: Example Patient</a></p><p><b>value</b>: 68 beats per minute<span style="background: LightGoldenRodYellow"> (Details: UCUM code /min = \'/min\')</span></p></div>',
@@ -203,6 +202,8 @@ export const useFHIR = defineStore("fhir", {
     preparedQueries: {},
     proofRequestsIds: [],
     provingWorkflowStatus: [],
+    provingRequestHistory: {},
+    pendingQueries: {},
   }),
   actions: {
     setBasicQuery: function (resource: any) {
@@ -265,21 +266,21 @@ export const useFHIR = defineStore("fhir", {
     },
     requestProofs: async function () {
       const { $mina } = useNuxtApp();
+      const navigationStore = useNavigation();
       const provingRequests = this.formatProvingRequest();
       const serializedProvingRequests = JSON.stringify(provingRequests);
+
       // Encode the string into a Uint8Array
       const encoder = new TextEncoder();
       const data = encoder.encode(serializedProvingRequests);
-
-      // Use the SubtleCrypto API to hash the data
       const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-
-      // Convert the buffer to a hexadecimal string
       const hashArray = Array.from(new Uint8Array(hashBuffer));
       const hashHex = hashArray
         .map((b) => b.toString(16).padStart(2, "0"))
         .join("");
 
+      //TODO: send signature to the server , server verifies the signature and then sends the request to temporal
+      navigationStore.pendingCloudProverRequest = true;
       try {
         const proofRequestsIds = await GqlRequestProofs({
           proofRequests: { proofRequests: provingRequests },
@@ -288,6 +289,7 @@ export const useFHIR = defineStore("fhir", {
       } catch (error) {
         console.log(error);
       }
+      navigationStore.pendingCloudProverRequest = false;
 
       let count = 0;
       let provingRequestStatuses = [];
@@ -298,9 +300,24 @@ export const useFHIR = defineStore("fhir", {
           worfklowDescription: null,
           resourceId: provingRequest.resource.id,
         };
-        this.provingRequestStatuses.push(provingRequestStatus);
+        this.pendingQueries[provingRequest.resource.id] =
+          this.preparedQueries[provingRequest.resource.id];
+        if (
+          this.provingRequestHistory.hasOwnProperty(provingRequest.resource.id)
+        ) {
+          this.provingRequestHistory[provingRequest.resource.id].push(
+            provingRequestStatus
+          );
+        } else {
+          this.provingRequestHistory[provingRequest.resource.id] = [
+            provingRequestStatus,
+          ];
+        }
+
         count++;
       });
+
+      this.preparedQueries = {};
     },
     getWorkflowStatus: async function () {
       try {

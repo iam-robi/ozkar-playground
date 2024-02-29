@@ -7,11 +7,13 @@
       <div class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
           <div class="indicator">
-            <UIcon
-              @click="openSlideOver"
-              style="font-weight: 900"
-              name="i-heroicons-shopping-cart-20-solid"
-            />
+            <button class="btn btn-circle">
+              <UIcon
+                @click="openSlideOver"
+                style="font-weight: 900"
+                name="i-heroicons-shopping-cart-20-solid"
+              />
+            </button>
             <span
               v-if="Object.keys(fhirStore.preparedQueries).length > 0"
               class="badge badge-success badge-sm indicator-item"

@@ -13,6 +13,15 @@ export interface ProvingRequestStatus {
   workflowId: string;
   workflowDescription?: WorkflowExecutionDescription;
 }
+type ResourceId = string;
+export type ProvingRequestHistory = {
+  [key: ResourceId]: ProvingRequestStatus[];
+};
+
+export type QueryList = {
+  [key: ResourceId]: OperatorObject[];
+};
+
 export interface FHIRState {
   query?: OperatorObject[];
   newOperator?: OperatorObject;
@@ -20,8 +29,9 @@ export interface FHIRState {
   selectedResource: String;
   observations: Observation[];
   proofs: Array<String>;
-  preparedQueries: any;
+  preparedQueries: QueryList;
   proofRequestsIds: string[];
   provingWorkflowStatus: Array<WorkflowExecutionDescription>;
-  provingRequestStatuses: ProvingRequestStatus[];
+  provingRequestHistory: ProvingRequestHistory;
+  pendingQueries: any;
 }

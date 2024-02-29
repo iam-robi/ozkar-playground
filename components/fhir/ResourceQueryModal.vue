@@ -3,7 +3,13 @@
     <button type="button" @click="openModal" class="btn">
       Proof
       <div
-        v-if="fhirStore.preparedQueries.hasOwnProperty(resource.id)"
+        v-if="fhirStore.pendingQueries.hasOwnProperty(resource.id)"
+        class="badge badge-outline"
+      >
+        pending <span class="loading loading-infinity loading-md"></span>
+      </div>
+      <div
+        v-else-if="fhirStore.preparedQueries.hasOwnProperty(resource.id)"
         class="badge badge-outline"
       >
         prepared

@@ -5,6 +5,7 @@ import { useNuxtApp } from "#app";
 
 export const useNavigation = defineStore("navigation", {
   state: (): NavigationState => ({
+    pendingCloudProverRequest: false,
     loading: false,
     proofSlideOverOpen: false,
   }),
