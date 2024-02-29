@@ -164,4 +164,7 @@ import { useFHIR } from "@/store/fhir/fhir.index";
 import { useNavigation } from "@/store/navigation/navigation.index";
 const fhirStore = useFHIR();
 const navigationStore = useNavigation();
+const compute = async () => {
+  await fhirStore.requestProofs();
+};
 </script>
