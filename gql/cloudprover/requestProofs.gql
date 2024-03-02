@@ -1,3 +1,6 @@
-mutation requestProofs($proofRequests: CreateProofInput!) {
-  requestProofs(proofRequests: $proofRequests)
+mutation requestProofs(
+  $proofRequests: CreateProofInput!
+  $signedDataObject: SignatureInput!
+) {
+  requestProofs(proofRequests: $proofRequests, signedData: $signedDataObject)
 }

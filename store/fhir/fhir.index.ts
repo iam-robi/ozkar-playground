@@ -431,14 +431,14 @@ export const useFHIR = defineStore("fhir", {
         .map((b) => b.toString(16).padStart(2, "0"))
         .join("");
 
-      const signature = await $mina.signMessage({ message: hashHex });
-      console.log(signature);
+      const signedData = await $mina.signMessage({ message: hashHex });
 
       //TODO: send signature to the server , server verifies the signature and then sends the request to temporal
       navigationStore.pendingCloudProverRequest = true;
       try {
         const proofRequestsIds = await GqlRequestProofs({
           proofRequests: { proofRequests: provingRequests },
+          signedDataObject: { signedData: signedData },
         });
         this.proofRequestsIds = proofRequestsIds.requestProofs;
       } catch (error) {
