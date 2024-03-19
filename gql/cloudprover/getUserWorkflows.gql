@@ -1,0 +1,8 @@
+query GetUserWorkflows($publicKey: String!, $status: String!, $resourceId: String) {
+  getUserWorkflows(
+    publicKey: $publicKey
+    status: $status
+    resourceId: $resourceId
+    #
+  )
+}
