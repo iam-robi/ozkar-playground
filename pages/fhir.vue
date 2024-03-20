@@ -4,7 +4,7 @@
 
     <div
       class="flex justify-center items-center min-h-screen"
-      v-if="!accountStore.minaLoggedIn"
+      v-if="!accountStore.minaLoggedIn && !fhirStore.dashboardLoading"
     >
       <div class="card w-96 bg-neutral text-neutral-content">
         <div class="card-body items-center text-center">
@@ -13,6 +13,23 @@
           <div class="card-actions justify-end">
             <WalletConnectWallet></WalletConnectWallet>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="flex justify-center items-center min-h-screen"
+      v-if="accountStore.minaLoggedIn && fhirStore.dashboardLoading"
+    >
+      <div class="card w-96 bg-neutral text-neutral-content">
+        <div class="card-body items-center text-center">
+          <h2 class="card-title">Initiating Dashboard please wait</h2>
+          <br />
+          <p>We are fetching data, available proofs and running jobs.</p>
+          <br />
+          <!-- <span class="loading loading-spinner loading-lg text-primary"></span>
+          <div class="skeleton h-32 w-full"></div> -->
+          <progress class="progress w-56"></progress>
         </div>
       </div>
     </div>

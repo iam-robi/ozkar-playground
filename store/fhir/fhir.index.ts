@@ -356,6 +356,7 @@ export const useFHIR = defineStore("fhir", {
     provingWorkflowStatus: [],
     provingRequestHistory: {},
     pendingQueries: {},
+    dashboardLoading: false,
   }),
   actions: {
     setBasicQuery: function (resource: any) {
