@@ -1,0 +1,6 @@
+query GetProofsResults($workflowIds: [String]!) {
+  getProofsResults(
+    signature: ""
+    workflowIds: $workflowIds
+  )
+}

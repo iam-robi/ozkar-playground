@@ -1,6 +1,0 @@
-query GetProofResult($workflowId: String!) {
-  getProofResult(
-    signature: ""
-    workflowId: $workflowId
-  )
-}

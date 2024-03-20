@@ -1,8 +1,9 @@
-query GetUserWorkflows($publicKey: String!, $status: String!, $resourceId: String) {
+# Write your query or mutation here
+query GetUserWorkflows($publicKey: String!,$status: String!, $resourceIds: [String]!) {
   getUserWorkflows(
     publicKey: $publicKey
     status: $status
-    resourceId: $resourceId
+    resourceIds: $resourceIds
     #
   )
 }
