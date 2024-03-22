@@ -37,4 +37,5 @@ export interface FHIRState {
   provingRequestHistory: ProvingRequestHistory;
   pendingQueries: any;
   dashboardLoading: boolean;
+  workflows: any[];
 }

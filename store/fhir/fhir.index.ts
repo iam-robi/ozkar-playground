@@ -6,6 +6,7 @@ import { JsonParser } from "@ozkarjs/vhir";
 import { GqlRequestProofs, GqlGetWorflowStatus } from "#imports";
 import type { Observation } from "@medplum/fhirtypes";
 import { useNavigation } from "../navigation/navigation.index";
+import { useAccount } from "../account/account.index";
 
 export const useFHIR = defineStore("fhir", {
   state: (): FHIRState => ({
@@ -357,6 +358,7 @@ export const useFHIR = defineStore("fhir", {
     provingRequestHistory: {},
     pendingQueries: {},
     dashboardLoading: false,
+    workflows: [],
   }),
   actions: {
     setBasicQuery: function (resource: any) {
@@ -485,6 +487,38 @@ export const useFHIR = defineStore("fhir", {
         console.log(error);
       }
     },
+    getResourceWorkflows: async function (resourceId: any) {
+      const resourceIds: string[] = [];
+      this.observations.forEach((observation) => {
+        resourceIds.push(observation.id as string);
+      });
+      const account = useAccount();
+      const publicKey: string = account.minaAddress as string;
+
+      try {
+        const workflows = await GqlGetUserWorkflows({
+          publicKey: publicKey,
+          status: "", // "" means all statuses are returned""
+          resourceIds: resourceIds,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    getResourceProofs: async function () {
+      //TODO: improve this function
+      const workflowIds: string[] = this.getCompletedWorklowsIds();
+      try {
+        const proofs = await GqlGetProofsResults({
+          workflowIds: { signature: "", workflowIds: workflowIds },
+        });
+        this.proofs = proofs.getProofs;
+      } catch (error) {
+        console.log(error);
+      }
+
+      
+    },
   },
 
   getters: {
@@ -520,5 +554,24 @@ export const useFHIR = defineStore("fhir", {
       }
       //return state.query?.filter((query) => query.path === path).length > 0;
     },
+    getResourceWorkflows: (state) => (resourceId: any) => {
+      const resourceIds = [];
+      state.observations.forEach((observation) => {
+        resourceIds.push(observation.id);
+      });
+    },
+    getCompletedWorklowsIds: (state) => {
+      //TODO: filter the workflows that are completed
+      const workflowIds:string[] = [];
+      state.provingWorkflowStatus.forEach((workflow) => {
+        if (workflow.status === "COMPLETED") {
+          workflowIds.push(workflow.workflowId as string;
+        }
+      });
+
+      return workflowIds;
+    },
+
+
   },
 });
