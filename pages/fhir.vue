@@ -57,6 +57,24 @@ const accountStore = useAccount();
 const compute = async () => {
   await fhirStore.requestProofs();
 };
+const { $mina } = useNuxtApp();
+
+const handleAccountsChanged = (accounts) => {
+  // Call Pinia store action
+
+  console.log("connected accounts", accounts);
+};
+
+accountStore.$subscribe(async (mutation) => {
+  console.log("mutation", mutation.events);
+  console.log("mutation", mutation);
+  if (
+    mutation.events.key == "minaLoggedIn" &&
+    mutation.events.newValue == true
+  ) {
+    await fhirStore.fetchDashboardData();
+  }
+});
 
 onMounted(async () => {});
 </script>

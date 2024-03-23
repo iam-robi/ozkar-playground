@@ -487,13 +487,35 @@ export const useFHIR = defineStore("fhir", {
         console.log(error);
       }
     },
-    getResourceWorkflows: async function (resourceId: any) {
+    fetchDashboardData: async function () {
+      console.log("fetchDashboardData");
+      this.dashboardLoading = true;
+      await this.getDashboardData();
+      await this.getWorflows();
+      await this.getResourceProofs();
+      this.dashboardLoading = false;
+    },
+    getDashboardData: async function () {
+      //in real world settings will fetch data from a FHIR server
+      console.log("getDashboardData");
+      await new Promise<void>((resolve) =>
+        setTimeout(() => {
+          console.log("Fetching dashboard data");
+          resolve(); // Resolve the promise after the timeout
+        }, 1000)
+      );
+    },
+    getWorflows: async function () {
+      console.log("getWorflows");
       const resourceIds: string[] = [];
       this.observations.forEach((observation) => {
         resourceIds.push(observation.id as string);
       });
       const account = useAccount();
-      const publicKey: string = account.minaAddress as string;
+      const publicKey: string = account.minaAccounts[0] as string;
+      console.log("publickey", publicKey);
+      const { $mina } = useNuxtApp();
+      console.log("mina", $mina);
 
       try {
         const workflows = await GqlGetUserWorkflows({
@@ -501,23 +523,38 @@ export const useFHIR = defineStore("fhir", {
           status: "", // "" means all statuses are returned""
           resourceIds: resourceIds,
         });
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    getResourceProofs: async function () {
-      //TODO: improve this function
-      const workflowIds: string[] = this.getCompletedWorklowsIds();
-      try {
-        const proofs = await GqlGetProofsResults({
-          workflowIds: { signature: "", workflowIds: workflowIds },
-        });
-        this.proofs = proofs.getProofs;
+
+        this.provingWorkflowStatus = workflows.getUserWorkflows.filter(
+          (workflow: any) => Object.keys(workflow).length > 0
+        );
       } catch (error) {
         console.log(error);
       }
 
-      
+      await new Promise<void>((resolve) =>
+        setTimeout(() => {
+          console.log("Fetching dashboard data");
+          resolve(); // Resolve the promise after the timeout
+        }, 1000)
+      );
+    },
+    getResourceProofs: async function () {
+      const workflowIds = this.getCompletedWorklowsIds;
+      try {
+        const proofs = await GqlGetProofsResults({
+          workflowIds: workflowIds, // Assuming workflowIds is of type string[] or similar
+        });
+        this.proofs = proofs.getProofsResults;
+      } catch (error) {
+        console.log(error);
+      }
+
+      await new Promise<void>((resolve) =>
+        setTimeout(() => {
+          console.log("Fetching dashboard data");
+          resolve(); // Resolve the promise after the timeout
+        }, 1000)
+      );
     },
   },
 
@@ -560,18 +597,27 @@ export const useFHIR = defineStore("fhir", {
         resourceIds.push(observation.id);
       });
     },
-    getCompletedWorklowsIds: (state) => {
+    getCompletedWorklowsIds: (state): string[] => {
       //TODO: filter the workflows that are completed
-      const workflowIds:string[] = [];
+      const workflowIds: string[] = [];
       state.provingWorkflowStatus.forEach((workflow) => {
-        if (workflow.status === "COMPLETED") {
-          workflowIds.push(workflow.workflowId as string;
+        //@ts-ignore
+        console.log(workflow.executions[0].status);
+        //@ts-ignore
+        if (
+          //@ts-ignore
+          workflow.executions[0].status ===
+          "WORKFLOW_EXECUTION_STATUS_COMPLETED"
+        ) {
+          //@ts-ignore
+          workflowIds.push(
+            //@ts-ignore
+            workflow.executions[0].execution.workflowId as string
+          );
         }
       });
 
       return workflowIds;
     },
-
-
   },
 });
