@@ -492,7 +492,7 @@ export const useFHIR = defineStore("fhir", {
       this.dashboardLoading = true;
       await this.getDashboardData();
       await this.getWorflows();
-      await this.getResourceProofs();
+      // await this.getResourceProofs();
       this.dashboardLoading = false;
     },
     getDashboardData: async function () {
@@ -538,24 +538,24 @@ export const useFHIR = defineStore("fhir", {
         }, 1000)
       );
     },
-    getResourceProofs: async function () {
-      const workflowIds = this.getCompletedWorklowsIds;
-      try {
-        const proofs = await GqlGetProofsResults({
-          workflowIds: workflowIds, // Assuming workflowIds is of type string[] or similar
-        });
-        this.proofs = proofs.getProofsResults;
-      } catch (error) {
-        console.log(error);
-      }
+    // getResourceProofs: async function () {
+    //   const workflowIds = this.getCompletedWorklowsIds;
+    //   try {
+    //     const proofs = await GqlGetProofsResults({
+    //       workflowIds: workflowIds, // Assuming workflowIds is of type string[] or similar
+    //     });
+    //     this.proofs = proofs.getProofsResults;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
 
-      await new Promise<void>((resolve) =>
-        setTimeout(() => {
-          console.log("Fetching dashboard data");
-          resolve(); // Resolve the promise after the timeout
-        }, 1000)
-      );
-    },
+    //   await new Promise<void>((resolve) =>
+    //     setTimeout(() => {
+    //       console.log("Fetching dashboard data");
+    //       resolve(); // Resolve the promise after the timeout
+    //     }, 1000)
+    //   );
+    // },
   },
 
   getters: {
