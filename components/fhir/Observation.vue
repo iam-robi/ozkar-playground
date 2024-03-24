@@ -25,14 +25,33 @@
     <div class="stat-value">
       {{ resource.valueQuantity.value }}
     </div>
-    <div class="stat-desc">{{ resource.valueQuantity.unit }}</div>
-    <FhirResourceQueryModal :resource="resource" />
+    <div class="stat-desc">
+      {{ resource.valueQuantity.unit }}
+    </div>
+    <div
+      v-if="
+        fhirStore.getResourceWorkflows(resource.id) &&
+        fhirStore.getResourceWorkflows(resource.id).workflows.length == 0
+      "
+    >
+      <FhirResourceQueryModal :resource="resource" />
+    </div>
+    <div
+      v-if="
+        fhirStore.getResourceWorkflows(resource.id) &&
+        fhirStore.getResourceWorkflows(resource.id).workflows.length > 0
+      "
+    >
+      <FhirResourceProofSummaryModal :resource="resource" />
+    </div>
   </div>
 </template>
 <script setup lang="ts">
 import { useFHIR } from "@/store/fhir/fhir.index";
 const fhirStore = useFHIR();
+
 defineProps<{
   resource?: any;
 }>();
+//fhirStore.getResourceWorkflows(resource.id);
 </script>

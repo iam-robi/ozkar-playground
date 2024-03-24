@@ -592,10 +592,30 @@ export const useFHIR = defineStore("fhir", {
       //return state.query?.filter((query) => query.path === path).length > 0;
     },
     getResourceWorkflows: (state) => (resourceId: any) => {
-      const resourceIds = [];
-      state.observations.forEach((observation) => {
-        resourceIds.push(observation.id);
-      });
+      return state.provingWorkflowStatus.filter(
+        (workflowDescription) => workflowDescription.resourceId === resourceId
+      )[0];
+    },
+    getResourceProofs: (state) => (resourceId: any) => {
+      const workflows = state.provingWorkflowStatus.filter(
+        (workflowDescription) => workflowDescription.resourceId === resourceId
+      )[0].workflows;
+
+      return workflows.filter((workflow) => workflow.status === "COMPLETED");
+      // if (workflows === undefined) return [];
+      // else {
+      //   return workflows.filter(
+      //     (workflowDescription) =>
+      //       workflowDescription.resourceId === resourceId &&
+      //       workflowDescription.status === "COMPLETED"
+      //   );
+      // }
+      // console.log(workflows);
+      // return workflows.filter(
+      //   (workflowDescription) =>
+      //     workflowDescription.resourceId === resourceId &&
+      //     workflowDescription.status === "COMPLETED"
+      // );
     },
     getCompletedWorklowsIds: (state): string[] => {
       //TODO: filter the workflows that are completed
