@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-center">
     <button type="button" @click="openModal" class="btn btn-success">
-      Avalaible Proofs
+      Available Proofs
       <div
         v-if="fhirStore.pendingQueries.hasOwnProperty(resource.id)"
         class="badge badge-outline"

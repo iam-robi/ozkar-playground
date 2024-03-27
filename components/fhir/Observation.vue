@@ -39,10 +39,24 @@
     <div
       v-if="
         fhirStore.getResourceWorkflows(resource.id) &&
-        fhirStore.getResourceWorkflows(resource.id).workflows.length > 0
+        fhirStore.getResourceWorkflows(resource.id).workflows.length > 0 &&
+        fhirStore.getResourceWorkflows(resource.id).workflows[0].status !=
+          'RUNNING'
       "
     >
       <FhirResourceProofSummaryModal :resource="resource" />
+    </div>
+    <div
+      v-if="
+        fhirStore.getResourceWorkflows(resource.id) &&
+        fhirStore.getResourceWorkflows(resource.id).workflows.length > 0 &&
+        fhirStore.getResourceWorkflows(resource.id).workflows[0].status ==
+          'RUNNING'
+      "
+    >
+      <button type="button" class="btn btn-warning" disabled>
+        computing <span class="loading loading-ring loading-md"></span>
+      </button>
     </div>
   </div>
 </template>
