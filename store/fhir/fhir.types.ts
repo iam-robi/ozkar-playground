@@ -1,7 +1,9 @@
 import type { Observation, AdverseEvent } from "@medplum/fhirtypes";
-import type { ComparisonOperator } from "@ozkarjs/vhir";
+// import type { ComparisonOperator } from "@ozkarjs/vhir";
 import type { WorkflowExecutionDescription } from "@temporalio/client";
 import type { Proof } from "o1js";
+
+export type ComparisonOperator = "$eq" | "$gt" | "$ge" | "$lt" | "$le" | "$ne";
 
 export interface OperatorObject {
   path: String;

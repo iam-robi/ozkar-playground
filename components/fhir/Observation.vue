@@ -30,8 +30,9 @@
     </div>
     <div
       v-if="
-        fhirStore.getResourceWorkflows(resource.id) &&
-        fhirStore.getResourceWorkflows(resource.id).workflows.length == 0
+        !fhirStore.getResourceWorkflows(resource.id) ||
+        (fhirStore.getResourceWorkflows(resource.id) &&
+          fhirStore.getResourceWorkflows(resource.id).workflows.length == 0)
       "
     >
       <FhirResourceQueryModal :resource="resource" />

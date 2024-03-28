@@ -2,18 +2,6 @@
   <div class="flex items-center justify-center">
     <button type="button" @click="openModal" class="btn btn-success">
       Available Proofs
-      <div
-        v-if="fhirStore.pendingQueries.hasOwnProperty(resource.id)"
-        class="badge badge-outline"
-      >
-        pending <span class="loading loading-infinity loading-md"></span>
-      </div>
-      <div
-        v-else-if="fhirStore.preparedQueries.hasOwnProperty(resource.id)"
-        class="badge badge-outline"
-      >
-        prepared
-      </div>
     </button>
   </div>
   <TransitionRoot appear :show="isOpen" as="template">
@@ -59,6 +47,20 @@
                 }}
                 <div class="badge badge-neutral">{{ resource.id }}</div>
               </DialogTitle>
+              <br /><br />
+
+              <div
+                v-for="(workflow, index) in fhirStore.getResourceProofs(
+                  resource.id
+                )"
+                :key="index"
+              >
+                <ProofBadge
+                  v-if="workflow.queryMetadata"
+                  :workflowMetadata="workflow"
+                  :resource="resource"
+                ></ProofBadge>
+              </div>
 
               <div class="mt-4">
                 <!-- <button class="btn btn-outline btn-success" @click="confirm">
