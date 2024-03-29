@@ -16,18 +16,13 @@
       </svg>
       <div>
         <h3 class="font-bold">
-          {{
-            resource.code.coding[0].display
-              ? resource.code.coding[0].display
-              : resource.code.text
-          }}
+          {{ resourceDisplay }}
         </h3>
-        <!-- resource.code.coding[0].display ? resource.code.coding[0].display
-              : resource.code.text -->
+
         <div class="text-xs">
-          {{ workflowMetadata.queryMetadata.queryComparator }}
-          {{ workflowMetadata.queryMetadata.queryValue }}
-          {{ resource.valueQuantity.unit }}
+          {{ queryComparatorDisplay }}
+          {{ queryValueDisplay }}
+          {{ unitDisplay }}
         </div>
       </div>
       <!-- <button class="btn btn-sm btn-success">See</button> -->
@@ -43,16 +38,42 @@
   </div>
 </template>
 <script setup lang="ts">
-import type Fhir from "@medplum/fhirtypes";
 import type { Observation, AdverseEvent } from "@medplum/fhirtypes";
 import type { QueryList } from "@/store/fhir/fhir.types";
 
 const download = () => {
-  console.log("downlaoding");
+  const dataStr = JSON.stringify(props.workflowMetadata.result, null, 2); // Format the JSON string for readability
+  const blob = new Blob([dataStr], { type: "application/json" });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", "proof.json"); // Set the file name for the download
+  document.body.appendChild(link); // Append link to the body
+  link.click(); // Programmatically click the link to trigger the download
+
+  document.body.removeChild(link); // Clean up by removing the link
+  URL.revokeObjectURL(url); // Release blob URL
 };
 
-defineProps<{
-  resource?: Observation | AdverseEvent;
-  workflowMetadata: Object;
+const resourceDisplay = computed(() => {
+  return (
+    props.resource?.code?.coding?.[0]?.display ||
+    props.resource?.code?.text ||
+    "N/A"
+  );
+});
+
+const queryComparatorDisplay = computed(
+  () => props.workflowMetadata.queryMetadata.queryComparator
+);
+const queryValueDisplay = computed(
+  () => props.workflowMetadata.queryMetadata.queryValue
+);
+const unitDisplay = computed(() => props.resource.valueQuantity?.unit || "N/A");
+
+const props = defineProps<{
+  resource: Observation;
+  workflowMetadata: any;
 }>();
 </script>
