@@ -28,6 +28,19 @@
           </div>
         </div>
       </div>
+
+      <!-- Card for FHIR -->
+      <div class="card w-96 bg-base-100 shadow-xl m-5">
+        <div class="card-body">
+          <h2 class="card-title">📜 Clinical Form</h2>
+          <p>Access the Clinical Form Submission & Proving Interface</p>
+          <div class="card-actions justify-end">
+            <router-link to="/questionnaires" class="btn btn-primary"
+              >Go to Clinical Forms</router-link
+            >
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

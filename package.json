@@ -34,9 +34,11 @@
     "@ozkarjs/zerkle": "^0.0.1",
     "@pinia/nuxt": "^0.5.1",
     "@temporalio/client": "^1.9.3",
+    "nuxi": "^3.11.1",
     "nuxt-graphql-client": "^0.2.33",
     "o1js": "^0.15.3",
     "pinia": "^2.1.7",
-    "vite-plugin-cross-origin-isolation": "^0.1.6"
+    "vite-plugin-cross-origin-isolation": "^0.1.6",
+    "zod": "^3.22.4"
   }
 }
