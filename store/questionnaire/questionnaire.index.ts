@@ -2,7 +2,7 @@
 import { defineStore } from "pinia";
 import type { QuestionnaireState } from "~/store/questionnaire/questionnaire.types";
 
-export const useQuestionnaire = defineStore("account", {
+export const useQuestionnaire = defineStore("questionnaire", {
   state: (): QuestionnaireState => ({
     loading: false,
     questionnaire: {
@@ -105,7 +105,7 @@ export const useQuestionnaire = defineStore("account", {
         ],
       },
     ],
-    selectedQuestionnaireId: "epworth-sleepiness-scale",
+    selectedQuestionnaireId: "",
   }),
   actions: {},
 });

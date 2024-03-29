@@ -1,8 +1,8 @@
 <template>
   <div>
     <Navbar></Navbar>
-
-    <div
+    <LayoutQuestionnaireHeroBanner></LayoutQuestionnaireHeroBanner>
+    <!-- <div
       class="flex justify-center items-center min-h-screen"
       v-if="!accountStore.minaLoggedIn"
     >
@@ -15,13 +15,8 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div>
-      <div class="title">
-        Pick a form to fill, enter the era of traceable & secure clinical forms
-        !
-      </div>
-
       <div
         v-if="questionnaireStore.selectedQuestionnaireId === ''"
         class="card w-96 bg-base-100 shadow-xl m-5"
@@ -50,7 +45,6 @@
         'epworth-sleepiness-scale'
       "
     ></FormEpworthSleepinessScale>
-    <button class="btn btn-primary" @click="selectForm('')">Cancel</button>
 
     <LayoutSlideOver></LayoutSlideOver>
   </div>

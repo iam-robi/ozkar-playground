@@ -65,7 +65,7 @@
               <UButton
                 color="violet"
                 variant="solid"
-                @click="questionnaireStore.selectedQuestionnaireId == ''"
+                @click="questionnaireStore.selectedQuestionnaireId = ''"
                 >Cancel</UButton
               >
             </UForm>
